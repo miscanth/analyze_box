@@ -70,7 +70,7 @@ git clone git@github.com:miscanth/analyze_box.git
 ```
 Создать и активировать виртуальное окружение: 
 ```
-python3.9 -m venv venv 
+python3.10 -m venv venv 
 ```
 * Если у вас Linux/macOS 
 
@@ -84,7 +84,7 @@ python3.9 -m venv venv
     ```
 В каталоге проекта при включенном виртуальном окружении обновить менеджер пакетов Package installer for Python:
 ```
-python3.12 -m pip install --upgrade pip
+python3.10 -m pip install --upgrade pip
 ```
 Установить зависимости из файла requirements.txt:
 ```
@@ -92,5 +92,5 @@ pip install -r requirements.txt
 ```
 Запустить исполнение основного модуля:
 ```
-python3.12 app.py
+python3.10 app.py
 ```
