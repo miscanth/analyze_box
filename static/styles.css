@@ -1,0 +1,266 @@
+/* static/styles.css */
+
+/* ==========================================================================
+   1. Базовые стили
+   ========================================================================== */
+body {
+  background-color: #283a4d; /* Цвет фона всего сайта */
+  color: #1b1b1f; /* Цвет основного текста */
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+/* ==========================================================================
+   2. Навигационная панель
+   ========================================================================== */
+.navbar {
+  background-color: #0E1926 !important; /* Цвет фона меню */
+  color: #ffffff; /* Белый текст */
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.2), 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12); /* --elevation-4 */
+  padding: 0 16px;
+  border: none;
+}
+
+.navbar .navbar-nav {
+  margin-left: 40px; /* Отступ слева для кнопок меню */
+}
+
+.navbar-nav .nav-link {
+  color: #ffffff !important; /* Белый текст */
+  padding: 0 16px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-left: 12px; /* Отступ между кнопками */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0);
+  box-shadow: none;
+  border-radius: 4px;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  transform: translateY(2px);
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.12); /* --elevation-2 */
+  background-color: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+.navbar-brand {
+  font-weight: 500;
+  color: #ffffff !important; /* Белый текст */
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+  padding: 16px 0;
+}
+
+.dropdown-toggle::after {
+  display: none !important; /* Убираем стрелочки у dropdown-toggle */
+}
+
+.dropdown-menu {
+  background-color: #434C58; /* Цвет фона выпадающего меню */
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,0.2), 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12); /* --elevation-8 */
+  padding: 8px 0;
+  min-width: 200px;
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  color: #ffffff; /* Белый текст пунктов меню */
+  transition: none;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.dropdown-item.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.dropdown-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  margin: 8px 0;
+}
+
+.dropdown-item .text-white {
+  color: rgba(255, 255, 255, 0.7) !important; /* Белый с прозрачностью для дополнительного текста */
+  font-size: 0.85em;
+  margin-left: 4px;
+  font-style: italic;
+}
+
+.dropdown-item.active .text-white {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.dropdown-item:hover .text-white {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* ==========================================================================
+   3. Основной контент (по умолчанию для всех страниц, кроме главной)
+   ========================================================================== */
+.dashboard-container {
+  padding: 24px;
+  background-color: #5E6875; /* Цвет фона контента по умолчанию (светло-серый) */
+  /* background-color: #ffffff; */ /* Альтернатива: белый фон */
+  border-radius: 8px;
+  box-shadow: 0 2px 1px -1px rgba(26, 30, 41, 0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.12); /* --elevation-1 */
+  margin: 24px;
+  min-height: calc(100vh - 112px);
+  width: auto;
+  max-width: none;
+}
+
+/* ==========================================================================
+   4. Стили для главного экрана (Переопределение)
+   ========================================================================== */
+/* Стиль для главной карточки (фон основного контента) */
+.home-page .dashboard-container {
+    background-color: #18222D !important; /* Цвет фона главной страницы */
+    min-height: calc(100vh - 56px);
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Стиль для заголовка AnalystBox */
+.main-title {
+    color: #0E1926 !important; /* Цвет текста заголовка */
+    font-size: 6rem !important; /* Размер шрифта заголовка */
+    font-weight: bold !important; /* Жирный шрифт заголовка */
+    margin-top: 10rem !important;
+    margin-bottom: 1rem !important;
+}
+
+/* ==========================================================================
+   5. Заголовки и текст (по умолчанию)
+   ========================================================================== */
+.main-title { /* Общие стили для заголовка, кроме цвета/размера/жирности */
+  font-size: 2rem;
+  font-weight: 400;
+  color: #1b1b1f; /* Цвет заголовка на других страницах */
+  margin: 24px 0 16px;
+  line-height: 1.2;
+}
+
+.lead {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #1b1b1f;
+  opacity: 0.87;
+  margin-bottom: 24px;
+}
+
+/* ==========================================================================
+   6. Карточки
+   ========================================================================== */
+.card {
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.12); /* --elevation-1 */
+  margin-bottom: 24px;
+  overflow: hidden;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  background-color: #ffffff; /* Фон самой карточки */
+}
+
+.card:hover {
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.2), 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12); /* --elevation-4 */
+}
+
+.card-header {
+  background-color: #1F374E; /* Фон заголовка карточки */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  font-weight: 500;
+  padding: 16px;
+  color: #ffffff; /* Цвет текста заголовка карточки */
+}
+
+.card-body {
+  padding: 16px;
+  width: 100%;
+  background-color: #EDEDEE; /* Фон тела карточки */
+}
+
+/* ==========================================================================
+   7. Кнопки
+   ========================================================================== */
+.btn {
+  border-radius: 4px;
+  padding: 0 16px;
+  height: 36px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.12); /* --elevation-1 */
+  background-color: #5A4914; /* --color-primary */
+  color: #ffffff; /* --color-on-primary */
+}
+
+.btn:hover {
+  background-color: #3b300d; /* --color-primary-variant */
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 1px 3px 0 rgba(0,0,0,0.12); /* --elevation-2 */
+  transform: none;
+}
+
+/* ==========================================================================
+   8. Графики
+   ========================================================================== */
+.plotly-graph-div {
+  width: 100% !important;
+  min-width: 100% !important;
+}
+
+/* ==========================================================================
+   9. Адаптивность
+   ========================================================================== */
+@media (max-width: 599px) {
+  .dashboard-container {
+    padding: 16px;
+    margin: 16px;
+    min-height: calc(100vh - 88px);
+  }
+
+  .main-title {
+    font-size: 1.5rem;
+    margin: 16px 0 12px;
+  }
+
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .navbar-nav .nav-link {
+    height: 48px;
+    font-size: 0.875rem;
+    margin-left: 8px;
+  }
+
+  .dropdown-item .text-white {
+    font-size: 0.8em;
+  }
+}
+
+/* ==========================================================================
+   10. Подключение шрифта Roboto
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
