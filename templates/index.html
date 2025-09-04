@@ -335,7 +335,52 @@
             themeToggle.addEventListener('click', toggleTheme);
         });
         
-        // Обработка отправки формы (предыдущий код)
+        // Функция для обработки корреляционной вкладки
+        function handleCorrelationTab(data) {
+            const correlationTab = document.querySelector('#correlation');
+            
+            if (data.correlation) {
+                correlationTab.innerHTML = `
+                    <div class="mt-3">
+                        <h5>Корреляционная матрица</h5>
+                        <div class="table-responsive">
+                            ${data.correlation.matrix}
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h5>Тепловая карта корреляций</h5>
+                        <div class="plot-container">
+                            <img src="${data.correlation.plot}" alt="Тепловая карта корреляций" class="img-fluid">
+                        </div>
+                    </div>
+                `;
+            } else {
+                correlationTab.innerHTML = `
+                    <div class="alert alert-warning mt-3">
+                        Для корреляционного анализа требуется как минимум 2 числовых переменных
+                    </div>
+                `;
+            }
+        }
+        
+        // Функция для обработки описательной статистики
+        function handleDescriptiveTab(data) {
+            if (data.descriptive) {
+                document.getElementById('descriptiveStats').innerHTML = data.descriptive.stats;
+                
+                const plotsContainer = document.getElementById('descriptivePlots');
+                plotsContainer.innerHTML = '';
+                
+                data.descriptive.plots.forEach(plotHtml => {
+                    const plotDiv = document.createElement('div');
+                    plotDiv.className = 'col-md-6 plot-container';
+                    plotDiv.innerHTML = plotHtml;
+                    plotsContainer.appendChild(plotDiv);
+                });
+            }
+        }
+        
+        // Обработка отправки формы
         document.getElementById('uploadForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -351,54 +396,12 @@
                 document.getElementById('mainCards').style.display = 'none';
                 document.getElementById('analysisResults').style.display = 'block';
                 
-                // Заполняем descriptive stats
-                if (data.descriptive) {
-                    document.getElementById('descriptiveStats').innerHTML = data.descriptive.stats;
-                    
-                    // Добавляем графики
-                    const plotsContainer = document.getElementById('descriptivePlots');
-                    plotsContainer.innerHTML = '';
-                    
-                    data.descriptive.plots.forEach(plotHtml => {
-                        const plotDiv = document.createElement('div');
-                        plotDiv.className = 'col-md-6 plot-container';
-                        plotDiv.innerHTML = plotHtml;
-                        plotsContainer.appendChild(plotDiv);
-                    });
-                }
-
-                // Заполняем корреляционный анализ
-                if (data.correlation) {
-                    const correlationTab = document.querySelector('#correlation');
-                    
-                    // Создаем контейнер для корреляционных результатов
-                    let correlationHtml = `
-                        <div class="mt-3">
-                            <h5>Корреляционная матрица</h5>
-                            <div class="table-responsive">
-                                ${data.correlation.matrix}
-                            </div>
-                        </div>
-                        <div class="mt-3">
-                            <h5>Тепловая карта корреляций</h5>
-                            <div class="plot-container">
-                                ${data.correlation.plot}
-                            </div>
-                        </div>
-                    `;
-                    
-                    correlationTab.innerHTML = correlationHtml;
-                } else {
-                    document.querySelector('#correlation').innerHTML = `
-                        <div class="alert alert-warning mt-3">
-                            Для корреляционного анализа требуется как минимум 2 числовых переменных
-                        </div>
-                    `;
-                }
-
-                // Аналогично обработайте другие вкладки (ANOVA, Clustering)
+                // Обрабатываем каждую вкладку
+                handleDescriptiveTab(data);
+                handleCorrelationTab(data);
+                
+                // Обработка других вкладок (можно добавить позже)
                 if (data.anova) {
-                    // Обработка ANOVA
                     document.querySelector('#anova').innerHTML = 'ANOVA результаты загружены';
                 } else {
                     document.querySelector('#anova').innerHTML = `
@@ -407,9 +410,8 @@
                         </div>
                     `;
                 }
-
+                
                 if (data.clustering) {
-                    // Обработка кластеризации
                     document.querySelector('#clustering').innerHTML = 'Результаты кластеризации загружены';
                 } else {
                     document.querySelector('#clustering').innerHTML = `

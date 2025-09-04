@@ -498,9 +498,10 @@ def correlation_analysis(method, title):
 
 
 def fig_to_base64(fig):
-    """Convert Plotly figure to base64 encoded image"""
+    """Convert plotly figure to base64 encoded image"""
     img_bytes = fig.to_image(format="png")
-    return base64.b64encode(img_bytes).decode('utf-8')
+    encoded = base64.b64encode(img_bytes).decode('utf-8')
+    return f"data:image/png;base64,{encoded}"
 
 
 def analyze_descriptive(data):
