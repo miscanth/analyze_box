@@ -78,6 +78,89 @@
         .table {
             color: var(--text-color);
         }
+        /* Стили для таблиц кластеризации */
+        .table-responsive table {
+            font-size: 0.85rem;
+        }
+
+        .table-responsive th {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border-color: var(--card-border);
+        }
+
+        /* Стили для информационных блоков */
+        .alert-info {
+            background-color: rgba(13, 110, 253, 0.1);
+            border-color: rgba(13, 110, 253, 0.25);
+            color: var(--text-color);
+        }
+
+        .alert-info h6 {
+            color: #0d6efd;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Стили для графиков */
+        .plot-container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .plot-container img {
+            transition: transform 0.3s ease;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .plot-container img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Улучшения для таблиц и графиков */
+        .table-responsive {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* Стили для преформатированного текста */
+        pre {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 15px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* Анимация загрузки */
+        .btn-loading {
+            position: relative;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            left: 50%;
+            margin: -8px 0 0 -8px;
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -392,12 +475,129 @@
                 plotsContainer.appendChild(rowDiv);
             }
         }
+
+        // Функция для обработки ANOVA анализа
+        function handleAnovaTab(data) {
+            const anovaTab = document.querySelector('#anova');
+            
+            if (data.anova) {
+                let anovaHtml = `
+                    <div class="mt-3">
+                        <h5>Результаты ANOVA анализа</h5>
+                        <div class="table-responsive">
+                            ${data.anova.results}
+                        </div>
+                    </div>
+                `;
+                
+                // Добавляем график
+                if (data.anova.plot) {
+                    anovaHtml += `
+                        <div class="mt-4">
+                            <h5>Визуализация ANOVA</h5>
+                            <div class="plot-container">
+                                <img src="${data.anova.plot}" alt="ANOVA график" class="img-fluid rounded shadow">
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Добавляем post-hoc тест, если есть
+                if (data.anova.posthoc) {
+                    anovaHtml += `
+                        <div class="mt-4">
+                            <h5>Post-hoc анализ (Tukey HSD)</h5>
+                            <div class="table-responsive">
+                                ${data.anova.posthoc}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                anovaTab.innerHTML = anovaHtml;
+            } else {
+                anovaTab.innerHTML = `
+                    <div class="alert alert-warning mt-3">
+                        Для ANOVA анализа требуется подходящий набор данных:
+                        <ul class="mb-0 mt-2">
+                            <li>Для ручного ввода: данные в формате групп</li>
+                            <li>Для файлов: хотя бы один числовой и один категориальный столбец</li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        // Функция для обработки кластеризации
+        function handleClusteringTab(data) {
+            const clusteringTab = document.querySelector('#clustering');
+            
+            if (data.clustering) {
+                let clusteringHtml = `
+                    <div class="mt-3">
+                        <h5>Результаты кластеризации (K-Means)</h5>
+                `;
+                
+                // Добавляем статистику по кластерам
+                if (data.clustering.stats) {
+                    clusteringHtml += `
+                        <div class="mb-4">
+                            <h6>Средние значения по кластерам</h6>
+                            <div class="table-responsive">
+                                ${data.clustering.stats}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Добавляем график кластеризации
+                if (data.clustering.plot) {
+                    clusteringHtml += `
+                        <div class="mt-4">
+                            <h6>Визуализация кластеров</h6>
+                            <div class="plot-container">
+                                <img src="${data.clustering.plot}" alt="Визуализация кластеров" class="img-fluid rounded shadow">
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Добавляем поясняющую информацию
+                clusteringHtml += `
+                    <div class="mt-4">
+                        <div class="alert alert-info">
+                            <h6>Информация о кластеризации:</h6>
+                            <ul class="mb-0">
+                                <li>Использован алгоритм K-Means с 3 кластерами</li>
+                                <li>Данные стандартизированы перед кластеризацией</li>
+                                <li>Метод локтя использован для определения оптимального числа кластеров</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                
+                clusteringHtml += `</div>`;
+                clusteringTab.innerHTML = clusteringHtml;
+            } else {
+                clusteringTab.innerHTML = `
+                    <div class="alert alert-warning mt-3">
+                        Для кластеризации требуется как минимум 2 числовые переменные
+                    </div>
+                `;
+            }
+        }
         
         // Обработка отправки формы
         document.getElementById('uploadForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const formData = new FormData(this);
+
+            // Показываем индикатор загрузки
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Загрузка...';
+            submitButton.disabled = true;
             
             fetch('/analyze', {
                 method: 'POST',
@@ -405,6 +605,10 @@
             })
             .then(response => response.json())
             .then(data => {
+                // Восстанавливаем кнопку
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+
                 // Показываем результаты анализа
                 document.getElementById('mainCards').style.display = 'none';
                 document.getElementById('analysisResults').style.display = 'block';
@@ -412,27 +616,8 @@
                 // Обрабатываем каждую вкладку
                 handleDescriptiveTab(data);
                 handleCorrelationTab(data);
-                
-                // Обработка других вкладок (можно добавить позже)
-                if (data.anova) {
-                    document.querySelector('#anova').innerHTML = 'ANOVA результаты загружены';
-                } else {
-                    document.querySelector('#anova').innerHTML = `
-                        <div class="alert alert-warning mt-3">
-                            Для ANOVA анализа требуется подходящий набор данных
-                        </div>
-                    `;
-                }
-                
-                if (data.clustering) {
-                    document.querySelector('#clustering').innerHTML = 'Результаты кластеризации загружены';
-                } else {
-                    document.querySelector('#clustering').innerHTML = `
-                        <div class="alert alert-warning mt-3">
-                            Для кластеризации требуется подходящий набор данных
-                        </div>
-                    `;
-                }
+                handleAnovaTab(data);
+                handleClusteringTab(data);
             })
             .catch(error => {
                 console.error('Error:', error);
