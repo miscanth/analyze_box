@@ -366,6 +366,58 @@
                         plotsContainer.appendChild(plotDiv);
                     });
                 }
+
+                // Заполняем корреляционный анализ
+                if (data.correlation) {
+                    const correlationTab = document.querySelector('#correlation');
+                    
+                    // Создаем контейнер для корреляционных результатов
+                    let correlationHtml = `
+                        <div class="mt-3">
+                            <h5>Корреляционная матрица</h5>
+                            <div class="table-responsive">
+                                ${data.correlation.matrix}
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <h5>Тепловая карта корреляций</h5>
+                            <div class="plot-container">
+                                ${data.correlation.plot}
+                            </div>
+                        </div>
+                    `;
+                    
+                    correlationTab.innerHTML = correlationHtml;
+                } else {
+                    document.querySelector('#correlation').innerHTML = `
+                        <div class="alert alert-warning mt-3">
+                            Для корреляционного анализа требуется как минимум 2 числовых переменных
+                        </div>
+                    `;
+                }
+
+                // Аналогично обработайте другие вкладки (ANOVA, Clustering)
+                if (data.anova) {
+                    // Обработка ANOVA
+                    document.querySelector('#anova').innerHTML = 'ANOVA результаты загружены';
+                } else {
+                    document.querySelector('#anova').innerHTML = `
+                        <div class="alert alert-warning mt-3">
+                            Для ANOVA анализа требуется подходящий набор данных
+                        </div>
+                    `;
+                }
+
+                if (data.clustering) {
+                    // Обработка кластеризации
+                    document.querySelector('#clustering').innerHTML = 'Результаты кластеризации загружены';
+                } else {
+                    document.querySelector('#clustering').innerHTML = `
+                        <div class="alert alert-warning mt-3">
+                            Для кластеризации требуется подходящий набор данных
+                        </div>
+                    `;
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
