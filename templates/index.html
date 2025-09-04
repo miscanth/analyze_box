@@ -371,12 +371,25 @@
                 const plotsContainer = document.getElementById('descriptivePlots');
                 plotsContainer.innerHTML = '';
                 
-                data.descriptive.plots.forEach(plotHtml => {
-                    const plotDiv = document.createElement('div');
-                    plotDiv.className = 'col-md-6 plot-container';
-                    plotDiv.innerHTML = plotHtml;
-                    plotsContainer.appendChild(plotDiv);
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'row';
+                
+                data.descriptive.plots.forEach((plotBase64, index) => {
+                    const colDiv = document.createElement('div');
+                    colDiv.className = 'col-md-6 plot-container mb-3';
+                    
+                    const img = document.createElement('img');
+                    img.src = plotBase64;
+                    img.alt = `График ${index + 1}`;
+                    img.className = 'img-fluid rounded shadow';
+                    img.style.width = '100%';
+                    img.style.height = 'auto';
+                    
+                    colDiv.appendChild(img);
+                    rowDiv.appendChild(colDiv);
                 });
+                
+                plotsContainer.appendChild(rowDiv);
             }
         }
         
